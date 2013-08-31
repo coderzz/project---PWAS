@@ -17,7 +17,7 @@ if($term != '') {
 		/**$sql = "SELECT *
 			FROM  `district_data1` 
 			WHERE state = '".$term."' and percentage >= ".$min_per." and percentage <= ".$max_per."";*/
-		$sql="SELECT m.district, d.longitude, d.latitude
+		$sql="SELECT m.district, m.state, d.longitude, d.latitude
 FROM `cdata` m
 INNER JOIN district_data1 d ON d.district = m.district
 WHERE m.state = '".$term."'
@@ -43,7 +43,7 @@ GROUP BY m.district";
 		/**$sql = "SELECT *
 			FROM  `district_data1` 
 			WHERE district = '".$term."' and percentage >= ".$min_per." and percentage <= ".$max_per."";*/
-		$sql="SELECT m.block, d.longitude, d.latitude
+		$sql="SELECT m.block, m.district, m.state, d.longitude, d.latitude
 FROM `cdata` m
 INNER JOIN block_data2 d ON d.block = m.block
 WHERE m.district = '".$term."'
@@ -59,7 +59,7 @@ GROUP BY m.block";
 			$_temp->lat = $rst['latitude'];
 			$_temp->lng = $rst['longitude'];
 			$_temp->title = $rst['block'];
-			$_temp->pop="<a class='fancybox fancybox.iframe' href='./homes.php?a=".$rst['block']."&b=".$min_per."&c=".$max_per."'>Get Habitation Level Data</a>"; //for popup message
+			$_temp->pop="<a class='fancybox fancybox.iframe' href='./homes.php?a=".$rst['block']."&p=".$rst['district']."&q=".$rst['state']."&b=".$min_per."&c=".$max_per."'>Get Habitation Level Data</a>"; //for popup message
 			$vst[] = $_temp;
 		}
 	
@@ -71,7 +71,7 @@ GROUP BY m.block";
 			FROM  `block_data2` 
 			WHERE block = '".$term."' and percentage >= ".$min_per." and percentage <= ".$max_per."";*/
 		
-		$sql="SELECT m.block, d.longitude, d.latitude
+		$sql="SELECT m.block, m.district, m.state, d.longitude, d.latitude
 FROM `cdata` m
 INNER JOIN block_data2 d ON d.block = m.block
 WHERE m.block = '".$term."'
@@ -87,7 +87,7 @@ GROUP BY m.block";
 			$_temp->lat = $rst['latitude'];
 			$_temp->lng = $rst['longitude'];
 			$_temp->title = $rst['block'];
-			$_temp->pop="<a class='fancybox fancybox.iframe' href='./homes.php?a=".$rst['block']."&b=".$min_per."&c=".$max_per."'>Get Habitation Level Data</a>"; //for popup message
+			$_temp->pop="<a class='fancybox fancybox.iframe' href='./homes.php?a=".$rst['block']."&p=".$rst['district']."&q=".$rst['state']."&b=".$min_per."&c=".$max_per."'>Get Habitation Level Data</a>"; //for popup message
 			$vst[] = $_temp;
 		}
 	

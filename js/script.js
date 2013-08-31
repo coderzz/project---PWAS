@@ -1,13 +1,16 @@
 var map;
 var markers;
-var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/5d205a745590448bbb2598e28fd70844/997/256/{z}/{x}/{y}.png',
+var googleLayer;
+var cloudmadeUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
 cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade, Points &copy 2012 LINZ',
 cloudmade = L.tileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution}),
 latlng = L.latLng(21.6, 79);
 
 jQuery(function() {
-
-	map = L.map('map', {center: latlng, zoom: 5, layers: [cloudmade]});
+	googleLayer = new L.Google('ROADMAP');
+	map = L.map('map', {center: latlng, zoom: 4, layers: [googleLayer]});
+	
+	//map = L.map('map', {center: latlng, zoom: 4, layers: [cloudmade]});
 	
 	markers = L.markerClusterGroup();
 	
@@ -17,7 +20,7 @@ jQuery(function() {
 		select: function( event, ui ) {
 			jQuery('#search').val(ui.item.value);
 			jQuery('#level').val(ui.item.level);
-			getMap();
+			//getMap();
 		}
 	});
 	
@@ -30,16 +33,50 @@ jQuery(function() {
 		 orientation: "horizontal",
 		 range: true,
 		 values: [ 0, 100 ],
+		 step: 5,
 		 slide: function(event, ui){
 			jQuery( "#percentage span" ).html( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-			getMap();
+			//getMap();
 		}
 	});
 	jQuery( "#percentage span" ).html( jQuery( "#slider-range" ).slider( "values", 0 ) +
 			 " - " + jQuery( "#slider-range" ).slider( "values", 1 ) );
 	
 	 
+// for slide in slide out
+jQuery('#arrow').on('click', function(){ 
+  var $this = $('#search-controls');
+  if ($this.hasClass('open')) {
+	$(this).removeClass('open');
+	$(this).addClass('close');
+    $this.animate({
+      left : '-22%'
+    }, 500).removeClass('open');
+  } else {
+  $(this).removeClass('close');
+	$(this).addClass('open');
+    $this.animate({
+      left : 0
+    }, 500).addClass('open');
+  }
 });
+/**
+jQuery.get("jk.geojson", function(india) { //Ajax load boundary file
+        india = JSON.parse( india); //Parse the geojson
+ var geojsonLayer = new L.GeoJSON(india);
+ L.geoJson( india, {
+        //Define boundary style to match map. Reference: http://leafletjs.com/reference.html#path-options
+        style: function (feature) {
+          return { color: "#e38ce1", opacity: 1, fillOpacity: 0, weight: 1,clickable:false };
+        }
+      }).addTo(map);
+
+      });
+ */
+	 
+	 });
+
+
 
 function plotMap(data){
 	markers.clearLayers();
